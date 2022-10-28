@@ -1,30 +1,32 @@
 import React from "react";
+import Button from "./common/Button.jsx";
+import { completeTask, updateTitle, deleteTask } from "../store/task.js";
 import PropTypes from "prop-types";
 
-const Task = ({ id, title, completed, onCompleteTask, onChangeTaskTitle, onDeleteTask }) => {
+const Task = ({ id, title, completed, dispatch }) => {
     return (
         <li className="list-group-item bg-dark border-light">
             <div className="d-flex flex-column justify-content-center align-items-center text-light p-4">
                 <pre>{title}</pre>
                 <pre>{completed ? "completed" : "in progress"}</pre>
-                <button
-                    className="btn btn-outline-light my-1"
-                    onClick={() => onChangeTaskTitle(id, `New Title for ${id}`)}
+                <Button
+                    buttonClass="btn-outline-light"
+                    onClick={() => dispatch(updateTitle(id, `New Title for ${id}`))}
                 >
-                Update Title
-                </button>
-                <button
-                    className="btn btn-outline-light my-1"
-                    onClick={() => onCompleteTask(id)}
+                    Update Title
+                </Button>
+                <Button
+                    buttonClass="btn-outline-light"
+                    onClick={() => dispatch(completeTask(id))}
                 >
-                Complete Task
-                </button>
-                <button
-                    className="btn btn-outline-danger my-1"
-                    onClick={() => onDeleteTask(id)}
+                    Complete Task
+                </Button>
+                <Button
+                    buttonClass="btn-outline-danger"
+                    onClick={() => dispatch(deleteTask(id))}
                 >
-                Delete Task
-                </button>
+                    Delete Task
+                </Button>
             </div>
         </li>
     );
@@ -36,6 +38,7 @@ Task.propTypes = {
     id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     title: PropTypes.string,
     completed: PropTypes.bool,
+    dispatch: PropTypes.func,
     onCompleteTask: PropTypes.func,
     onChangeTaskTitle: PropTypes.func,
     onDeleteTask: PropTypes.func
